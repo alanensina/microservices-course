@@ -1,0 +1,17 @@
+version: '3.8'
+
+networks:
+  mongo_network:
+    driver: bridge
+
+services:
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - mongo_network
+volumes:
+  dbdata6:
