@@ -1,0 +1,23 @@
+version: '3.8'
+
+networks:
+  mysql_network:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_HOST: localhost
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: order-service
+      MYSQL_USER: ensina
+      MYSQL_PASSWORD: 12345678
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql_network
