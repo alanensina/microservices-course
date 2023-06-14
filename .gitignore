@@ -31,8 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
 data/
-**/data/
-/src/main/resources/data/
-/.mvn/wrapper/maven-wrapper.jar
-/.mvn/wrapper/maven-wrapper.properties
+**/.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.properties

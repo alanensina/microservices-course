@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  product-service:
+    image: mongo:6-jammy
+    container_name: product-service
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - product-network
+
+  order-service:
+    image: mysql:8.0.33-debian
+    container_name: order-service
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: order-service
+    ports:
+      - '3306:3306'
+    networks:
+      - order-network
+
+  inventory-service:
+    image: mysql:8.0.33-debian
+    container_name: inventory-service
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: inventory-service
+    ports:
+      - '3307:3306'
+    networks:
+      - inventory-network
+
+volumes:
+  dbdata6:
+
+networks:
+  product-network:
+  order-network:
+  inventory-network:
