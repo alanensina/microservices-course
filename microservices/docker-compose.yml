@@ -47,6 +47,14 @@ services:
     networks:
       - keycloak-network
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - '9411:9411'
+    networks:
+      - zipkin-network
+
 volumes:
   dbdata6:
 
@@ -55,3 +63,4 @@ networks:
   order-network:
   inventory-network:
   keycloak-network:
+  zipkin-network:
