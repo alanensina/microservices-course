@@ -23,7 +23,7 @@ import static alanensina.orderservice.constants.UrlConstants.GET_INVENTORY_BY_SK
 public class OrderService {
 
     private final OrderRepository repository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public void placeOrder(OrderRequest request){
         Order order = new Order();
@@ -38,7 +38,7 @@ public class OrderService {
         List<String> skuCodes = order.getOrderLineItemsList().stream().map(OrderLineItems::getSkuCode).toList();
 
         // Call to InventoryService to check if the item is available
-        InventoryResponse[] responseArray = webClient.get()
+        InventoryResponse[] responseArray = webClientBuilder.build().get()
                 .uri(GET_INVENTORY_BY_SKUCODE, uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
