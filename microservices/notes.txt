@@ -1,0 +1,14 @@
+How to set up KeyCloak to run the project:
+
+- Create a Realm with the name: spring-cloud-microservices-realm
+    - Get in OpenID Endpoint Configuration
+        - Copy the issuer (it will be used on application.properties on api-gateway)
+        - Copy token_endpoint (it will be used on Postman to get the tokens)
+- Create a client with the name: spring-cloud-client
+    - Get in Client Credentions:
+        - Copy the secret (it will be used on Postman to get the tokens)
+    - set Access Type: confidential
+    - set as enable: Service Accounts Enable
+    - set as disable: Standard Flow Enable
+    - set as disable: Direct Acccess Grants Enable
+
