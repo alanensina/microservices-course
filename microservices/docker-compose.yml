@@ -35,6 +35,18 @@ services:
     networks:
       - inventory-network
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    container_name: keycloak
+    ports:
+      - '8181:8080'
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    networks:
+      - keycloak-network
+
 volumes:
   dbdata6:
 
@@ -42,3 +54,4 @@ networks:
   product-network:
   order-network:
   inventory-network:
+  keycloak-network:
