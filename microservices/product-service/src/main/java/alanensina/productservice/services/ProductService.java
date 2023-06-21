@@ -18,7 +18,7 @@ public class ProductService {
     private final ProductRepository repository;
 
     public void createProduct(ProductRequest request){
-        var product = Product.builder()
+        Product product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(request.getPrice())
@@ -30,7 +30,7 @@ public class ProductService {
     }
 
     public List<ProductResponse> getAllProducts() {
-        var products = repository.findAll();
+        List<Product> products = repository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
