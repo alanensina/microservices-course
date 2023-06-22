@@ -3,6 +3,7 @@ package alanensina.orderservice.services;
 import alanensina.orderservice.dtos.InventoryResponse;
 import alanensina.orderservice.dtos.OrderLineItemsDTO;
 import alanensina.orderservice.dtos.OrderRequest;
+import alanensina.orderservice.events.OrderPlacedEvent;
 import alanensina.orderservice.models.Order;
 import alanensina.orderservice.models.OrderLineItems;
 import alanensina.orderservice.repositories.OrderRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -29,6 +31,7 @@ public class OrderService {
     private final OrderRepository repository;
     private final WebClient.Builder webClientBuilder;
     private final Tracer tracer;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     public String placeOrder(OrderRequest request){
         Order order = new Order();
@@ -59,6 +62,7 @@ public class OrderService {
             if(response){
                 repository.save(order);
                 log.info("Order placed! ");
+                kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
                 return "Order placed successfully!";
             }else{
                 log.error("Product is not in stock!");

@@ -55,6 +55,28 @@ services:
     networks:
       - zipkin-network
 
+  zookeeper:
+    image: zookeeper:3.7.1
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    networks:
+      - app
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app
+
 volumes:
   dbdata6:
 
@@ -64,3 +86,4 @@ networks:
   inventory-network:
   keycloak-network:
   zipkin-network:
+  app:
